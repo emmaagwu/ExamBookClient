@@ -22,7 +22,7 @@ const LoginForm = () => {
 
             // Navigate based on admin status
             if (is_admin) {
-                navigate('/admin_dashboard');
+                navigate("/admin/dashboard");
             } else {
                 navigate('/dashboard');
             }

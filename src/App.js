@@ -1,10 +1,11 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
-import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import AllUsers from './pages/admin/AllUsersPage';
+import CreateUser from './pages/admin/CreateUserPage';
+import AdminLayout from './components/admin/Layout/AdminLayout';
 
 function App() {
   return (
@@ -12,8 +13,17 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin_dashboard" element={<AdminDashboard />} />
+
+        {/* Admin Routes wrapped with AdminLayout */}
+        <Route path="/admin/*" element={
+          <AdminLayout>
+            <Routes>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="users" element={<AllUsers />} />
+              <Route path="users/create" element={<CreateUser />} />
+            </Routes>
+          </AdminLayout>
+        } />
       </Routes>
     </Router>
   );

@@ -1,5 +1,5 @@
 {
-  "name": "exambook_frontend",
+  "name": "exambookclient",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
