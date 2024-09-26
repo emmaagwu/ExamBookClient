@@ -4,6 +4,10 @@ export const getUsers = async () => {
   return await fetchWithAuth('/users/admin/users', { method: 'GET' });
 };
 
+export const getUserById = async (userId) => {
+  return await fetchWithAuth(`/users/admin/users/${userId}`, { method: 'GET' });
+};
+
 
 export const createUser = async (userData) => {
   return await fetchWithAuth('/users', {

@@ -1,20 +1,23 @@
+// src/pages/users/AllUsersPage.js
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Popconfirm, message, Spin, Input } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUsers, deleteUser } from '../../services/userService';
 import { Link } from 'react-router-dom';
+import UserDetailsModal from './UserDetailsModal'; // Import the modal component
 import 'antd/dist/reset.css'; // Resets default ANTD styles for customization with Tailwind
 
 const AllUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null); // Track selected user for modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await getUsers();
-        console.log('Fetched Users:', data);
         setUsers(data);
       } catch (error) {
         message.error('Failed to fetch users');
@@ -40,6 +43,16 @@ const AllUsersPage = () => {
     (user?.full_name?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
+  const showUserDetails = (userId) => {
+    setSelectedUserId(userId);
+    setIsModalVisible(true);
+  };
+
+  const closeUserDetailsModal = () => {
+    setSelectedUserId(null);
+    setIsModalVisible(false);
+  };
+
   const columns = [
     {
       title: 'Full Name',
@@ -61,7 +74,12 @@ const AllUsersPage = () => {
       key: 'actions',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button type="link" className="text-blue-500 hover:text-blue-700" icon={<EyeOutlined />}>
+          <Button
+            type="link"
+            className="text-blue-500 hover:text-blue-700"
+            icon={<EyeOutlined />}
+            onClick={() => showUserDetails(record.user_id)} // Show modal on click
+          >
             View
           </Button>
           <Button type="link" className="text-green-500 hover:text-green-700" icon={<EditOutlined />}>
@@ -107,8 +125,18 @@ const AllUsersPage = () => {
           rowKey="user_id"
           pagination={{ pageSize: 10 }}
           className="table-striped"
+          rowClassName={(record, index) => index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
         />
       </div>
+
+      {/* User Details Modal */}
+      {selectedUserId && (
+        <UserDetailsModal
+          userId={selectedUserId}
+          visible={isModalVisible}
+          onClose={closeUserDetailsModal}
+        />
+      )}
     </div>
   );
 };
