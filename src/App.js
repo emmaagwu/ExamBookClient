@@ -5,6 +5,7 @@ import AuthPage from './pages/AuthPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AllUsers from './pages/admin/AllUsersPage';
 import CreateUser from './pages/admin/CreateUserPage';
+import EditUser from  './pages/admin/EditUserPage';
 import AdminLayout from './components/admin/Layout/AdminLayout';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AllUsers />} />
               <Route path="users/create" element={<CreateUser />} />
+              <Route path="/users/edit/:userId" element={<EditUser />} />
             </Routes>
           </AdminLayout>
         } />

@@ -46,7 +46,7 @@ const UserDetailsModal = ({ userId, visible, onClose }) => {
             <Avatar
               size={120}
               icon={!userDetails?.avatar_url && <UserOutlined />}
-              src={userDetails?.avatar_url || 'https://via.placeholder.com/120'}
+              src={userDetails?.avatar_url? `http://localhost:5000/${userDetails.avatar_url}` : 'https://via.placeholder.com/120'}
               className="border border-gray-200 shadow-lg rounded-full"
             />
 

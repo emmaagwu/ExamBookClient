@@ -10,9 +10,13 @@ export const fetchWithAuth = async (url, options = {}) => {
     console.log('JWT Token:', token); // Debugging
 
     const headers = {
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,  // Attach token to all requests
     };
+
+    // Check if the body is FormData and don't set the Content-Type
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     let response = await fetch(`${API_URL}${url}`, {
       ...options,
